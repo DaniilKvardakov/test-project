@@ -1,6 +1,9 @@
 <template>
   <div class="catalog">
-      <p>Catalog</p>
+    <CatalogList />
   </div>
 </template>
 
+<script setup lang="ts">
+import CatalogList from "../modules/CatalogList/CatalogList.vue";
+</script>
