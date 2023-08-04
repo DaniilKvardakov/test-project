@@ -9,7 +9,7 @@ export const useCatalogStore = defineStore('catalog', () => {
     const FETCH_CATALOG_ITEMS = () => {
         return HTTP.get("/src/mock/catalogitems.json").then((items) => {
             CATALOG_ITEMS.value = items.data.data;
-        }).catch(err => {
+        }).catch((err): Error => {
             throw Error(err);
         })
     }
