@@ -1,9 +1,9 @@
 <template>
   <div class="catalog">
-    <CatalogList />
+    <TableAlbum />
   </div>
 </template>
 
 <script setup lang="ts">
-import CatalogList from "../modules/CatalogList/CatalogList.vue";
+import TableAlbum from "../components/tablealbum/TableAlbum.vue";
 </script>

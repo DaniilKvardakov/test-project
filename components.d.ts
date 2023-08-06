@@ -7,14 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AButton: typeof import('ant-design-vue/es')['Button']
+    ATable: typeof import('ant-design-vue/es')['Table']
     CartItem: typeof import('./src/components/cartitem/CartItem.vue')['default']
-    CatalogList: typeof import('./src/modules/CatalogList/CatalogList.vue')['default']
     Footer: typeof import('./src/components/footer/Footer.vue')['default']
     Header: typeof import('./src/components/header/Header.vue')['default']
-    Heder: typeof import('./src/components/header/Heder.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TableAlbum: typeof import('./src/components/tablealbum/TableAlbum.vue')['default']
   }
 }
