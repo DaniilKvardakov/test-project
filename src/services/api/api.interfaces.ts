@@ -1,6 +1,4 @@
 type Album =  {
-    key: number;
-    nestedData: PhotosList;
     albumId: number,
     id: number,
     title: string,

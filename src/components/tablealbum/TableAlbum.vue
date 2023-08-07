@@ -3,12 +3,16 @@
       <a-table
               :dataSource="albumList"
               :columns="tableConfig"
-              >
+              :row-key="(record) => record.id"
+              @expand="getNestedTableData"
+      >
           <template #expandedRowRender="record">
             <a-table
-                    :dataSource="record.record.nestedData"
+                    :dataSource="photosList"
                     :pagination="false"
-                    :columns="photosConfig" >
+                    :columns="photosConfig"
+                    :loading="isLoaded"
+            >
                 <template #bodyCell="{column, record}">
                     <template v-if="column.dataIndex === 'url'">
                         <img :src="record.thumbnailUrl"
@@ -24,9 +28,11 @@
 
 <script setup lang="ts">
 import {onMounted, Ref, ref} from "vue";
-import {AlbumList} from "../../services/api/api.interfaces.ts";
+import {AlbumList, PhotosList} from "../../services/api/api.interfaces.ts";
 import {api} from "../../services/api/api.instance.ts";
 const albumList: Ref<AlbumList> = ref([]);
+const photosList: Ref<PhotosList> = ref([]);
+const isLoaded: Ref<boolean> = ref(false);
 const tableConfig = [
       {
           title: 'Айди пользователя',
@@ -64,15 +70,22 @@ const photosConfig = [
     },
 ]
 
+const getNestedTableData = (isTableOpen, record) => {
+    const { id } = record;
+    if(isTableOpen) {
+        isLoaded.value = true;
+        api.getPhotosById(id).then(resp => {
+            isLoaded.value = false;
+            photosList.value = resp;
+        })
+    } else {
+        photosList.value = [];
+    }
+}
+
 onMounted(() => {
     api.getAlbums().then(resp => {
         albumList.value = resp;
-        albumList.value.forEach((album, idx) => {
-            album.key = idx;
-            api.getPhotosById(album.id).then(resp => {
-                album.nestedData = resp;
-            })
-        })
     })
 })
 </script>
