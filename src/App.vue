@@ -8,6 +8,4 @@
 
 <script setup>
 import DefaultLayout from "./layouts/DefaultLayout.vue";
-import "./assets/styles/normalize.css"
-import "./assets/styles/general.css"
 </script>

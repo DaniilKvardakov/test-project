@@ -1,5 +1,5 @@
 <template>
-  <div class="catalog">
+  <div class="main">
     <TableAlbum />
   </div>
 </template>

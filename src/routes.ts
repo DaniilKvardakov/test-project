@@ -1,14 +1,13 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Home from "./views/Home.vue";
-import Catalog from "./views/Catalog.vue";
+import Main from "./views/Main.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: "/catalog/",
-            name: "Catalog",
-            component: Catalog,
+            path: "/",
+            name: "Main",
+            component: Main,
         },
     ]
 })
