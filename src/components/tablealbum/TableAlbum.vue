@@ -4,23 +4,14 @@
               :dataSource="albumList"
               :columns="tableConfig"
               :row-key="(record) => record.id"
-              @expand="getNestedTableData"
+              @expand="(isTableOpen) => isNestedTableOpen = isTableOpen"
       >
+
           <template #expandedRowRender="record">
-            <a-table
-                    :dataSource="photosList"
-                    :pagination="false"
-                    :columns="photosConfig"
-                    :loading="isLoaded"
-            >
-                <template #bodyCell="{column, record}">
-                    <template v-if="column.dataIndex === 'url'">
-                        <img :src="record.thumbnailUrl"
-                             :alt="record.thumbnailUrl"
-                        >
-                    </template>
-                </template>
-            </a-table>
+              <AlbumPreview
+                      :idOfRow="record.record.id"
+                      :isOpened="isNestedTableOpen"
+              />
           </template>
       </a-table>
   </div>
@@ -28,11 +19,11 @@
 
 <script setup lang="ts">
 import {onMounted, Ref, ref} from "vue";
-import {AlbumList, PhotosList} from "../../services/api/api.interfaces.ts";
+import {AlbumList} from "../../services/api/api.interfaces.ts";
 import {api} from "../../services/api/api.instance.ts";
+import AlbumPreview from "./AlbumPreview.vue";
 const albumList: Ref<AlbumList> = ref([]);
-const photosList: Ref<PhotosList> = ref([]);
-const isLoaded: Ref<boolean> = ref(false);
+const isNestedTableOpen: Ref<boolean> = ref(false);
 const tableConfig = [
       {
           title: 'Айди пользователя',
@@ -51,37 +42,6 @@ const tableConfig = [
           key: "title"
       },
 ]
-const photosConfig = [
-    {
-        title: 'Айди фотографии',
-        dataIndex: 'id',
-        key: "id",
-    },
-    {
-        title: 'Заголовок Изображения',
-        dataIndex: 'title',
-        key: "title"
-    },
-    {
-        title: 'Фотография',
-        dataIndex: 'url',
-        key: "url",
-        align: "center"
-    },
-]
-
-const getNestedTableData = (isTableOpen, record) => {
-    const { id } = record;
-    if(isTableOpen) {
-        isLoaded.value = true;
-        api.getPhotosById(id).then(resp => {
-            isLoaded.value = false;
-            photosList.value = resp;
-        })
-    } else {
-        photosList.value = [];
-    }
-}
 
 onMounted(() => {
     api.getAlbums().then(resp => {
